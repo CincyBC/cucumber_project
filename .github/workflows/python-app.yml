@@ -31,10 +31,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-      - name: Test with behave
-        run: |
-          pip install behave[toml]
-          behave
       - name: Test with pytest
         run: |
           pip install pytest
@@ -42,3 +38,6 @@ jobs:
           pip install httpx
           pip install pytest-asyncio
           pytest --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+      - name: Test with behave
+        run: |
+          sh -c export PYTHONPATH=/app/src:$PYTHONPATH && behave
