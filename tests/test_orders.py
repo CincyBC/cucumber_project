@@ -1,6 +1,7 @@
 from datetime import datetime
 from fastapi import HTTPException
-from your_module import get_order, OrdersInDB
+from routers.orders import get_order
+from models.orders import OrdersInDB
 import pytest
 from unittest.mock import MagicMock, AsyncMock
 
