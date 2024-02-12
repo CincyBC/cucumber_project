@@ -1,0 +1,50 @@
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: database/postgres.dockerfile
+    image: "cucumber_postgres"
+    container_name: "cucumber_postgres"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: ${PGDATA}
+    volumes:
+      - "./database/01-init-db.sql:/docker-entrypoint-initdb.d/init01.sql"
+      - "./database/02-load-data.sql:/docker-entrypoint-initdb.d/init02.sql"
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "PGPASSWORD=${POSTGRES_PASSWORD} pg_isready -h postgres -p 5432 -U ${POSTGRES_USER}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: "cucumber_api"
+    container_name: "cucumber_api"
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgres
+    environment:
+      DB_HOST: postgres
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
+      command: >
+    command: sh -c "echo Waiting for PostgreSQL to initialize... && sleep 3 && uvicorn main:app --host 0.0.0.0 --port 4000"
+
+volumes:
+  dbcucumber:
+    external: true
