@@ -19,9 +19,9 @@ def step_impl_given_order_exists(context, order_id):
 
 
 @when("I request the order with ID {order_id:d}")
-def step_impl_when_request_order(context, order_id):
+async def step_impl_when_request_order(context, order_id):
     # Call the get_order function with the specified order ID
-    context.response = get_order(order_id, context.conn)
+    context.response = await get_order(order_id, context.conn)
 
 
 @then("the API should return the order details")
@@ -45,6 +45,11 @@ def step_impl_given_no_order_exists(context, order_id):
 
 
 @then("the API should return a 404 error")
-def step_impl_then_return_404_error(context):
+async def step_impl_then_return_404_error(context):
     # Assert that the response is a 404 error
-    assert context.response.status_code == 404
+    if hasattr(context, "response"):
+        # Assert that the response is a 404 error
+        response = await context.response
+        assert response.status_code == 404
+    else:
+        raise AssertionError("Response attribute not found in the context")
