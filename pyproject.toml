@@ -1,0 +1,28 @@
+[project]
+name = "cucumber project"
+version = "0.1.0"
+
+description = "Testing Behave on FastAPI"
+readme = "README.md"
+requires-python = "3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: BSD-3",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/CincyBC/cucumber_project"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+python_files = "test_*.py"
+addopts = "-ra -q"
+testpaths = "tests/"
+pythonpath = ["src/"]
+
+dependencies = [
+    "behave @ git+https://github.com/behave/behave.git@v1.2.7.dev5",
+    "fastapi",
+    "uvicorn",
+]

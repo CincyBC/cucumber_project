@@ -2,4 +2,3 @@ black
 fastapi
 uvicorn[standard]
 behave @ git+https://github.com/behave/behave@v1.2.7.dev4
-pytest

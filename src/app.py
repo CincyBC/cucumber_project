@@ -1,7 +1,7 @@
 from fastapi import APIRouter, FastAPI
-from router import orders, products
+from routers import orders, products
 
-app = FastAPI()
+api = FastAPI()
 
 api = APIRouter(
     prefix="/api",
