@@ -27,7 +27,7 @@ async def test_get_order_found():
     assert response == OrdersInDB(**mock_row)
 
 
-@pytest.skip
+@pytest.mark.skip(reason="Need to implement correctly")
 @pytest.mark.asyncio
 async def test_get_order_not_found():
     # Mock database connection
