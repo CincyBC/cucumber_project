@@ -38,6 +38,9 @@ jobs:
           pip install httpx
           pip install pytest-asyncio
           pytest --doctest-modules --junitxml=junit/test-results.xml --cov=com --cov-report=xml --cov-report=html
+      - name: set pythonpath
+        run: |
+          echo "PYTHONPATH=/src" >> $GITHUB_ENV
       - name: Test with behave
         run: |
-          sh -c export PYTHONPATH=/app/src:$PYTHONPATH && behave
+          behave
