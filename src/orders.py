@@ -21,7 +21,8 @@ async def get_order(id: int, conn=Depends(get_database_connection)):
         row = await conn.fetchrow(query, id)
         if row:
             return OrdersInDB(**row)
-        raise HTTPException(status_code=404, detail="Order not found")
+        else:
+            raise HTTPException(status_code=404, detail="Order not found")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
