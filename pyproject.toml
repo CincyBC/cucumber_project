@@ -4,7 +4,6 @@ version = "0.1.0"
 
 description = "Testing Behave on FastAPI"
 readme = "README.md"
-requires-python = "3.10"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: BSD-3",
