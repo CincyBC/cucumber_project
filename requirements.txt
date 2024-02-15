@@ -1,3 +1,4 @@
+asyncpg
 black
 fastapi
 uvicorn[standard]

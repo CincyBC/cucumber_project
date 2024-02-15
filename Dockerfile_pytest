@@ -20,14 +20,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
 
-# Copy the FastAPI scripts into the container
-COPY src/ .
+RUN pip install pytest pytest-cov httpx pytest-asyncio
 
-# Copy the Behave tests into the container
-COPY features/ .
+# Copy the FastAPI scripts into the container
+COPY . .
 
 # Expose port 4000
 EXPOSE 4000
 
-# Command to run the FastAPI application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "4000"]
+CMD ["pytest", "--doctest-modules", "--junitxml=junit/test-results.xml", "--cov=com", "--cov-report=xml", "--cov-report=html"]
