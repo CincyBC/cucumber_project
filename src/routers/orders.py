@@ -10,8 +10,16 @@ router = APIRouter(
 
 
 @router.get("/")
-def get_orders(conn=Depends(get_database_connection)):
-    pass
+async def get_orders(conn=Depends(get_database_connection)):
+    try:
+        query = "SELECT * FROM orders"
+        rows = await conn.fetchall(query, id)
+        if rows:
+            return OrdersInDB(**rows)
+        else:
+            raise HTTPException(status_code=404, detail="Orders not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.get("/{id}")

@@ -2,11 +2,11 @@
 
 from behave import given, when, then
 from src.routers.orders import get_order
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, AsyncMock
 
 
 @given("an order exists in the database with ID {order_id:d}")
-def step_impl_given_order_exists(context, order_id):
+async def step_impl_given_order_exists(context, order_id):
     # Mock the database connection to return a row for the specified order ID
     context.conn = MagicMock()
     context.conn.fetchrow.return_value = {
@@ -25,7 +25,7 @@ async def step_impl_when_request_order(context, order_id):
 
 
 @then("the API should return the order details")
-def step_impl_then_return_order_details(context):
+async def step_impl_then_return_order_details(context):
     # Assert that the response contains the expected order details
     expected_order_details = {
         "order_id": 1,
